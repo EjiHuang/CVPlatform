@@ -25,34 +25,20 @@
                 Background="#FF2D2D30"
                 BorderBrush="DeepSkyBlue"
                 BorderThickness="0,0,0,0.5">
-                <MenuItem
-                    Header="_File"
-                    ItemContainerStyle="{DynamicResource MenuItemStyle1}"
-                    Style="{StaticResource menuParentStyle}"
-                    Template="{DynamicResource MenuItemControlTemplate2}">
+                <MenuItem Header="_File">
                     <MenuItem Command="{Binding OpenNewImageCommand}" Header="_New" />
                     <MenuItem Header="_Save" />
                     <MenuItem Header="_Quit" />
                 </MenuItem>
-                <MenuItem
-                    Header="_Effect"
-                    ItemContainerStyle="{DynamicResource MenuItemStyle1}"
-                    Style="{StaticResource menuParentStyle}"
-                    Template="{DynamicResource MenuItemControlTemplate2}">
+                <MenuItem Header="_Effect">
                     <MenuItem Header="_Gray" />
                 </MenuItem>
-                <MenuItem
-                    Header="_Algorithm"
-                    ItemContainerStyle="{DynamicResource MenuItemStyle1}"
-                    Style="{StaticResource menuParentStyle}"
-                    Template="{DynamicResource MenuItemControlTemplate2}">
-                    <MenuItem Header="_Gray" />
+                <MenuItem Header="_Algorithm">
+                    <MenuItem Header="_Gray">
+                        <MenuItem Header="_Test" />
+                    </MenuItem>
                 </MenuItem>
-                <MenuItem
-                    Header="_Help"
-                    ItemContainerStyle="{DynamicResource MenuItemStyle1}"
-                    Style="{StaticResource menuParentStyle}"
-                    Template="{DynamicResource MenuItemControlTemplate2}">
+                <MenuItem Header="_Help">
                     <MenuItem Command="{Binding ShowAboutDialogCommand}" Header="_About" />
                 </MenuItem>
             </Menu>
