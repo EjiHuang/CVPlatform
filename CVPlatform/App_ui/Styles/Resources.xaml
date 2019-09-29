@@ -36,7 +36,7 @@
     <SolidColorBrush x:Key="CloseButtonStrokeHighlighted" Color="#FFFFFF" />
 
     <!--  Menu  -->
-    <SolidColorBrush x:Key="MenuSeparatorBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="MenuSeparatorBorderBrush" Color="#333337" />
     <SolidColorBrush x:Key="MenuItemHighlightedBackground" Color="#3E3E40" />
     <SolidColorBrush x:Key="SubmenuItemBackground" Color="#1b1b1c" />
     <SolidColorBrush x:Key="SubmenuItemBackgroundHighlighted" Color="#333334" />

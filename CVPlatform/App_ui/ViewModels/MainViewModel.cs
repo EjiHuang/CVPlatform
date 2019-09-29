@@ -37,7 +37,11 @@ namespace App_ui.ViewModels
         public StringBuilder CurrImagePath
         {
             get => GetProperty(() => CurrImagePath);
-            set => SetProperty(() => CurrImagePath, value, () => { CurrBitmapImage = new BitmapImage(new Uri(value.ToString())); });
+            set => SetProperty(() => CurrImagePath, value, () =>
+            {
+                CurrBitmapImage = new BitmapImage(new Uri(value.ToString()));
+                IsImportImage = CurrImagePath == null ? false : true;
+            });
         }
 
         /// <summary>
@@ -88,6 +92,15 @@ namespace App_ui.ViewModels
         }
 
         /// <summary>
+        /// 是否已经导入了图片
+        /// </summary>
+        public bool IsImportImage
+        {
+            get => GetProperty(() => IsImportImage);
+            set => SetProperty(() => IsImportImage, value);
+        }
+
+        /// <summary>
         /// 保存单应性矩阵数组
         /// </summary>
         public List<IntPtr> HomographyMats = new List<IntPtr>();
@@ -105,17 +118,13 @@ namespace App_ui.ViewModels
 
         #endregion
 
-        #region MyRegion
-
-        #endregion
-
         #region Command
 
         /// <summary>
         /// 命令：导入图片
         /// </summary>
         /// <param name="obj"></param>
-        [Command]
+        [AsyncCommand]
         public void OpenNewImageCommand(object obj)
         {
             OpenFileDialog imgFileDialog = new OpenFileDialog
@@ -142,27 +151,20 @@ namespace App_ui.ViewModels
                 // 释放内存
                 CVAlgorithms.ReleaseMemUseFree(CurrImgInfo.data);
                 // 控制台输出提示
-                ConsoleText += CmdTag + imgFileDialog.SafeFileName + " import succeeded." + Environment.NewLine;
+                ConsoleText += $"{CmdTag}{imgFileDialog.SafeFileName} import succeeded.{Environment.NewLine}";
             }
             // 计时结束
             _watch.Stop();
-            StatusText = "Execution time: " + _watch.ElapsedMilliseconds + " ms.";
+            StatusText = $"Execution time: {_watch.ElapsedMilliseconds} ms.";
         }
 
         /// <summary>
         /// 命令：灰度效果实现
         /// </summary>
         /// <param name="obj"></param>
-        [Command]
+        [AsyncCommand]
         public void EffectGrayCommand(object obj)
         {
-            // 判断是否已经载入图片
-            if (CurrImagePath == null)
-            {
-                MessageBox.Show("Please import a picture.", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
             // 计时开始
             _watch = Stopwatch.StartNew();
 
@@ -179,25 +181,18 @@ namespace App_ui.ViewModels
 
             // 计时结束
             _watch.Stop();
-            StatusText = "Execution time: " + _watch.ElapsedMilliseconds + " ms.";
+            StatusText = $"Execution time: {_watch.ElapsedMilliseconds} ms.";
             // 控制台输出提示
-            ConsoleText += CmdTag + " Grayscale success." + Environment.NewLine;
+            ConsoleText += $"{CmdTag} Grayscale success.{Environment.NewLine}";
         }
 
         /// <summary>
         /// 命令：Blur处理
         /// </summary>
         /// <param name="obj"></param>
-        [Command]
+        [AsyncCommand]
         public void EffectBlurCommand(object obj)
         {
-            // 判断是否已经载入图片
-            if (CurrImagePath == null)
-            {
-                MessageBox.Show("Please import a picture.", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
             CurrBmp = ImageEx.BitmapImage2Bitmap(CurrBitmapImage);
             CurrBmpInfo = ImageEx.GetBitmapPixels(CurrBmp);
 
@@ -205,23 +200,16 @@ namespace App_ui.ViewModels
             blurView.Show();
 
             // 控制台输出提示
-            ConsoleText += CmdTag + " Blur success." + Environment.NewLine;
+            ConsoleText += $"{CmdTag} Blur success.{Environment.NewLine}";
         }
 
         /// <summary>
         /// 事件：对图像进行二值化处理
         /// </summary>
         /// <param name="obj"></param>
-        [Command]
-        public void EffectThreshodCommand(object obj)
+        [AsyncCommand]
+        public void EffectThresholdCommand(object obj)
         {
-            // 判断是否已经载入图片
-            if (CurrImagePath == null)
-            {
-                MessageBox.Show("Please import a picture.", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
             CurrBmp = ImageEx.BitmapImage2Bitmap(CurrBitmapImage);
             CurrBmpInfo = ImageEx.GetBitmapPixels(CurrBmp);
 
@@ -229,7 +217,7 @@ namespace App_ui.ViewModels
             thresholdView.Show();
 
             // 控制台输出提示
-            ConsoleText += CmdTag + " Threshod success." + Environment.NewLine;
+            ConsoleText += $"{CmdTag} Threshod success.{Environment.NewLine}";
         }
 
         #endregion

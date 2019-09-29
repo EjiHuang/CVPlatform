@@ -1,6 +1,7 @@
 ﻿using App_ui.Common;
 using App_ui.DllImport;
 using App_ui.ViewModels;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -19,6 +20,15 @@ namespace App_ui.Views.SubViews
             InitializeComponent();
         }
 
+        #region Private field
+
+        /// <summary>
+        /// 当前操作的视图模型
+        /// </summary>
+        private MainViewModel vm;
+
+        #endregion
+
         #region Public field
 
         /// <summary>
@@ -31,6 +41,31 @@ namespace App_ui.Views.SubViews
         /// </summary>
         public BitmapInfo OldBmpInfo;
 
+        /// <summary>
+        /// 二值化算法标志
+        /// </summary>
+        enum ThresholdTypes
+        {
+            THRESH_BINARY = 0,
+            THRESH_BINARY_INV = 1,
+            THRESH_TRUNC = 2,
+            THRESH_TOZERO = 3,
+            THRESH_TOZERO_INV = 4,
+            THRESH_MASK = 7,        // 不支持
+            THRESH_OTSU = 8,        // 不支持32位
+            THRESH_TRIANGLE = 16    // 不支持32位
+        };
+
+        /// <summary>
+        /// 当前选择的二值化算法
+        /// </summary>
+        ThresholdTypes CurrThresholdType = 0;
+
+        /// <summary>
+        /// 当前操作的值
+        /// </summary>
+        public int CurrThresholdValue = 0;
+
         #endregion
 
         /// <summary>
@@ -40,13 +75,13 @@ namespace App_ui.Views.SubViews
         /// <param name="e"></param>
         private void Slider_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            var vm = DataContext as MainViewModel;
-            var value = (int)(sender as Slider).Value;
+            CurrThresholdValue = (int)(sender as Slider).Value;
+            vm = DataContext as MainViewModel;
 
             // 计时开始
             vm._watch = Stopwatch.StartNew();
 
-            CVAlgorithms.CvpThreshold(OldBmpInfo.data, vm.CurrBmp.Width, vm.CurrBmp.Height, OldBmpInfo.step, value, 255, 0, ref CurrImgInfo);
+            CVAlgorithms.CvpThreshold(OldBmpInfo.data, vm.CurrBmp.Width, vm.CurrBmp.Height, OldBmpInfo.step, CurrThresholdValue, 255, (int)CurrThresholdType, ref CurrImgInfo);
 
             byte[] imagePixels = new byte[CurrImgInfo.size];
             Marshal.Copy(CurrImgInfo.data, imagePixels, 0, CurrImgInfo.size);
@@ -103,7 +138,25 @@ namespace App_ui.Views.SubViews
         /// <param name="e"></param>
         private void Cb_method_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            string item = (e.AddedItems[0] as ComboBoxItem).Content as string;
+            Enum.TryParse(item, out CurrThresholdType);
+            vm = DataContext as MainViewModel;
+            if (null != vm) // 防止第一次加载没初始化视图模型的情况
+            {
+                // 计时开始
+                vm._watch = Stopwatch.StartNew();
 
+                CVAlgorithms.CvpThreshold(OldBmpInfo.data, vm.CurrBmp.Width, vm.CurrBmp.Height, OldBmpInfo.step, CurrThresholdValue, 255, (int)CurrThresholdType, ref CurrImgInfo);
+                byte[] imagePixels = new byte[CurrImgInfo.size];
+                Marshal.Copy(CurrImgInfo.data, imagePixels, 0, CurrImgInfo.size);
+                vm.CurrBitmapImage = ImageEx.ByteToBitmapImage(imagePixels);
+                // 释放内存
+                CVAlgorithms.ReleaseMemUseFree(CurrImgInfo.data);
+
+                // 计时结束
+                vm._watch.Stop();
+                vm.StatusText = "Execution time: " + vm._watch.ElapsedMilliseconds + " ms.";
+            }
         }
     }
 }

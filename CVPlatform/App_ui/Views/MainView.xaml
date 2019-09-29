@@ -10,6 +10,7 @@
     Width="800"
     Height="500"
     Background="#FF2D2D30"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.DataContext>
         <vm:MainViewModel x:Name="MainVM" />
@@ -32,8 +33,21 @@
                     <MenuItem Header="_Quit" />
                 </MenuItem>
                 <MenuItem Header="_Effect">
-                    <MenuItem Command="{Binding EffectGrayCommand}" Header="_Gray" />
-                    <MenuItem Command="{Binding EffectBlurCommand}" Header="_Blur" />
+                    <MenuItem
+                        Command="{Binding EffectGrayCommand}"
+                        Header="_Gray"
+                        IsEnabled="{Binding IsImportImage}" />
+                    <MenuItem
+                        Command="{Binding EffectBlurCommand}"
+                        Header="_Blur"
+                        IsEnabled="{Binding IsImportImage}" />
+                    <MenuItem
+                        Command="{Binding EffectThresholdCommand}"
+                        Header="_Threshold"
+                        IsEnabled="{Binding IsImportImage}" />
+                    <MenuItem Header="_Test">
+                        <MenuItem Header="_T1" />
+                    </MenuItem>
                 </MenuItem>
                 <!--<MenuItem
                     Header="_Algorithm"
@@ -123,17 +137,20 @@
                                 Height="25"
                                 Margin="1"
                                 Command="{Binding EffectGrayCommand}"
-                                Content="Gray" />
+                                Content="Gray"
+                                IsEnabled="{Binding IsImportImage}" />
                             <Button
                                 Height="25"
                                 Margin="1"
                                 Command="{Binding EffectBlurCommand}"
-                                Content="Blur" />
+                                Content="Blur"
+                                IsEnabled="{Binding IsImportImage}" />
                             <Button
                                 Height="25"
                                 Margin="1"
-                                Command="{Binding EffectThreshodCommand}"
-                                Content="Threshod" />
+                                Command="{Binding EffectThresholdCommand}"
+                                Content="Threshold"
+                                IsEnabled="{Binding IsImportImage}" />
                         </StackPanel>
                     </GroupBox>
                 </Border>

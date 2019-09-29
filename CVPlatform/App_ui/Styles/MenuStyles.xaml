@@ -127,7 +127,7 @@
                                     <Setter TargetName="IGTHost" Property="Visibility" Value="Collapsed" />
                                     <Setter TargetName="ArrowPanel" Property="Visibility" Value="Collapsed" />
                                     <Setter TargetName="SubMenuBorder" Property="BorderThickness" Value="1,1,1,1" />
-                                    <Setter TargetName="SubMenu" Property="Margin" Value="2,3,2,2" />
+                                    <Setter TargetName="SubMenu" Property="Margin" Value="0,1,0,0" />
                                     <Setter TargetName="TransitionBorder" Property="Width" Value="{Binding ActualWidth, ElementName=Grid}" />
                                 </Trigger>
                                 <Trigger Property="Role" Value="TopLevelItem">
