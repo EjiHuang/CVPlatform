@@ -24,5 +24,17 @@ namespace App_ui
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        ///     事件：文本框编辑事件，使文本框一直保持文本最后
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ConsoleView_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ConsoleView.SelectionStart = ConsoleView.Text.Length;
+            ConsoleView.ScrollToEnd();
+        }
+
     }
 }

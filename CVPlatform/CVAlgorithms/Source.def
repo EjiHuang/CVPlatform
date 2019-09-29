@@ -1,0 +1,10 @@
+;CVAlgorithms.dll
+;Autor:Eji
+LIBRARY CVAlgorithms.dll
+EXPORTS
+ReleaseMemUseFree			@1
+ReleaseMemUseDelete			@2
+CvpImread					@3 
+CvpGray						@4
+CvpBlur						@5
+CvpThreshold				@6

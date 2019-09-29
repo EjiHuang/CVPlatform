@@ -6,14 +6,15 @@
     xmlns:local="clr-namespace:App_ui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:App_ui.ViewModels"
-    Title="MainWindow"
+    Title="CVPlatform"
     Width="800"
-    Height="450"
+    Height="500"
+    Background="#FF2D2D30"
     mc:Ignorable="d">
     <Window.DataContext>
         <vm:MainViewModel x:Name="MainVM" />
     </Window.DataContext>
-    <Grid Background="#FF2D2D30">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition />
@@ -31,13 +32,24 @@
                     <MenuItem Header="_Quit" />
                 </MenuItem>
                 <MenuItem Header="_Effect">
-                    <MenuItem Header="_Gray" />
+                    <MenuItem Command="{Binding EffectGrayCommand}" Header="_Gray" />
+                    <MenuItem Command="{Binding EffectBlurCommand}" Header="_Blur" />
                 </MenuItem>
-                <MenuItem Header="_Algorithm">
-                    <MenuItem Header="_Gray">
-                        <MenuItem Header="_Test" />
+                <!--<MenuItem
+                    Header="_Algorithm"
+                    ItemContainerStyle="{DynamicResource MenuItemStyle1}"
+                    Style="{StaticResource menuParentStyle}"
+                    Template="{DynamicResource MenuItemControlTemplate2}">
+                    <MenuItem Header="_Gray" Command="{Binding EffectGrayCommand}" />
+                    <MenuItem Header="_Match" Command="{Binding AlgorithmsMatchCommand}" />
+                    <MenuItem Header="_Sfr"
+                              ItemContainerStyle="{DynamicResource MenuItemStyle1}">
+                        <MenuItem Header="_Homography_T" Command="{Binding AlgorithmsHomographyCommand}" />
+                        <MenuItem Header="_GetHomography" Command="{Binding AlgorithmsGetHomographyCommand}" />
+                        <MenuItem Header="_WarpPerspective" Command="{Binding AlgorithmsWarpPerspectiveCommand}" />
+                        <MenuItem Header="_SfrAndGetArea" Command="{Binding AlgorithmsSfrAndGetAreaCommand}"/>
                     </MenuItem>
-                </MenuItem>
+                </MenuItem>-->
                 <MenuItem Header="_Help">
                     <MenuItem Command="{Binding ShowAboutDialogCommand}" Header="_About" />
                 </MenuItem>
@@ -53,29 +65,78 @@
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.8*" />
+                    <RowDefinition Height="3" />
                     <RowDefinition Height="0.2*" />
                 </Grid.RowDefinitions>
                 <!--#region Image show area-->
-                <Grid Grid.Row="0">
+                <Grid
+                    Grid.Row="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
                     <Image
                         x:Name="Image_show"
                         Margin="5"
-                        HorizontalAlignment="Center"
                         Source="{Binding CurrBitmapImage}"
                         Stretch="Uniform" />
                 </Grid>
                 <!--#endregion-->
-
+                <GridSplitter
+                    Grid.Row="1"
+                    Height="2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="#FF2D2D30"
+                    ShowsPreview="True" />
                 <!--#region Command output area-->
-                <Grid Grid.Row="1">
-                    <Border BorderBrush="SkyBlue" BorderThickness="0,1,0,0" />
-                </Grid>
+                <Border
+                    Grid.Row="2"
+                    BorderBrush="SkyBlue"
+                    BorderThickness="0,0,0,0">
+                    <TextBox
+                        x:Name="ConsoleView"
+                        Background="Black"
+                        FontFamily="Consolas"
+                        FontSize="12"
+                        Foreground="White"
+                        HorizontalScrollBarVisibility="Auto"
+                        IsReadOnly="True"
+                        Text="{Binding ConsoleText}"
+                        TextChanged="ConsoleView_TextChanged"
+                        TextWrapping="Wrap"
+                        VerticalScrollBarVisibility="Auto" />
+                </Border>
                 <!--#endregion-->
             </Grid>
 
             <!--  Right area  -->
             <Grid Grid.Column="2">
-                <Border BorderBrush="SkyBlue" BorderThickness="1,0,0,0" />
+                <Border BorderBrush="SkyBlue" BorderThickness="0.5,0,0,0">
+                    <GroupBox
+                        Padding="5"
+                        VerticalAlignment="Top"
+                        BorderBrush="SkyBlue"
+                        BorderThickness="0.5"
+                        Foreground="White"
+                        Header="Effect">
+                        <StackPanel>
+                            <Button
+                                Height="25"
+                                Margin="1"
+                                Command="{Binding EffectGrayCommand}"
+                                Content="Gray" />
+                            <Button
+                                Height="25"
+                                Margin="1"
+                                Command="{Binding EffectBlurCommand}"
+                                Content="Blur" />
+                            <Button
+                                Height="25"
+                                Margin="1"
+                                Command="{Binding EffectThreshodCommand}"
+                                Content="Threshod" />
+                        </StackPanel>
+                    </GroupBox>
+                </Border>
             </Grid>
         </Grid>
         <!--  Status bar  -->
@@ -92,9 +153,9 @@
             </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="0">
                 <TextBlock
-                    Margin="0"
+                    Margin="5,0,0,0"
                     Foreground="White"
-                    Text=" ready" />
+                    Text="{Binding StatusText}" />
             </StatusBarItem>
         </StatusBar>
     </Grid>
