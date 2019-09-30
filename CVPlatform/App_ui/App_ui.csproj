@@ -66,6 +66,9 @@
     <Compile Include="Views\SubViews\BlurView.xaml.cs">
       <DependentUpon>BlurView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SubViews\GrayHistView.xaml.cs">
+      <DependentUpon>GrayHistView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SubViews\ThresholdView.xaml.cs">
       <DependentUpon>ThresholdView.xaml</DependentUpon>
     </Compile>
@@ -98,6 +101,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\SubViews\BlurView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SubViews\GrayHistView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

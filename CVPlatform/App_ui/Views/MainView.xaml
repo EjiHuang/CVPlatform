@@ -49,21 +49,14 @@
                         <MenuItem Header="_T1" />
                     </MenuItem>
                 </MenuItem>
-                <!--<MenuItem
-                    Header="_Algorithm"
-                    ItemContainerStyle="{DynamicResource MenuItemStyle1}"
-                    Style="{StaticResource menuParentStyle}"
-                    Template="{DynamicResource MenuItemControlTemplate2}">
-                    <MenuItem Header="_Gray" Command="{Binding EffectGrayCommand}" />
-                    <MenuItem Header="_Match" Command="{Binding AlgorithmsMatchCommand}" />
-                    <MenuItem Header="_Sfr"
-                              ItemContainerStyle="{DynamicResource MenuItemStyle1}">
-                        <MenuItem Header="_Homography_T" Command="{Binding AlgorithmsHomographyCommand}" />
-                        <MenuItem Header="_GetHomography" Command="{Binding AlgorithmsGetHomographyCommand}" />
-                        <MenuItem Header="_WarpPerspective" Command="{Binding AlgorithmsWarpPerspectiveCommand}" />
-                        <MenuItem Header="_SfrAndGetArea" Command="{Binding AlgorithmsSfrAndGetAreaCommand}"/>
+                <MenuItem Header="_Analysis">
+                    <MenuItem Header="_Histogram">
+                        <MenuItem
+                            Command="{Binding AnalysisGrayHistCommand}"
+                            Header="Grayscale Hist"
+                            IsEnabled="{Binding IsImportImage}" />
                     </MenuItem>
-                </MenuItem>-->
+                </MenuItem>
                 <MenuItem Header="_Help">
                     <MenuItem Command="{Binding ShowAboutDialogCommand}" Header="_About" />
                 </MenuItem>

@@ -204,7 +204,7 @@ namespace App_ui.ViewModels
         }
 
         /// <summary>
-        /// 事件：对图像进行二值化处理
+        /// 命令：对图像进行二值化处理
         /// </summary>
         /// <param name="obj"></param>
         [AsyncCommand]
@@ -215,6 +215,23 @@ namespace App_ui.ViewModels
 
             ThresholdView thresholdView = new ThresholdView { DataContext = this, OldBmpInfo = CurrBmpInfo };
             thresholdView.Show();
+
+            // 控制台输出提示
+            ConsoleText += $"{CmdTag} Threshod success.{Environment.NewLine}";
+        }
+
+        /// <summary>
+        /// 命令：分析图像的灰度直方图
+        /// </summary>
+        /// <param name=""></param>
+        [AsyncCommand]
+        public void AnalysisGrayHistCommand(object obj)
+        {
+            CurrBmp = ImageEx.BitmapImage2Bitmap(CurrBitmapImage);
+            CurrBmpInfo = ImageEx.GetBitmapPixels(CurrBmp);
+
+            GrayHistView grayHistView = new GrayHistView { DataContext = this };
+            grayHistView.Show();
 
             // 控制台输出提示
             ConsoleText += $"{CmdTag} Threshod success.{Environment.NewLine}";

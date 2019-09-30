@@ -77,6 +77,22 @@ void _stdcall CvpThreshold(unsigned char* pBuf, const int width, const int heigh
 	std::copy(bytes.begin(), bytes.end(), imgInfo.data);
 }
 
+/// Opencv wrapper - 
+void _stdcall CvpGrayHist(unsigned char* pBuf, const int width, const int height, const int step, ImageInfo& imgInfo)
+{
+	Mat im_src = Mat(height, width, CV_8UC4, pBuf, step);
+	// 灰度化处理
+	cvtColor(im_src, im_src, CV_RGBA2GRAY);
+	// 直方图参数设置
+	int histSize = 256;
+	float range[] = { 0,256 };
+	const float* histRange = { range };
+	bool uniform = true, accumulat = false;
+
+	Mat hist;
+	calcHist()
+}
+
 
 /// 仿射变换匹配
 //struct _data {
