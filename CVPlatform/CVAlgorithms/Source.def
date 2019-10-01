@@ -8,3 +8,4 @@ CvpImread					@3
 CvpGray						@4
 CvpBlur						@5
 CvpThreshold				@6
+CvpCalcGrayHist				@7

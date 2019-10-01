@@ -9,6 +9,7 @@ struct ImageInfo
 	float r1;
 	float r2;
 	double* r3;
+	int* r4;
 };
 
 /// Opencv wrapper - imread
@@ -77,20 +78,46 @@ void _stdcall CvpThreshold(unsigned char* pBuf, const int width, const int heigh
 	std::copy(bytes.begin(), bytes.end(), imgInfo.data);
 }
 
-/// Opencv wrapper - 
-void _stdcall CvpGrayHist(unsigned char* pBuf, const int width, const int height, const int step, ImageInfo& imgInfo)
+/// Opencv wrapper - calcHist
+void _stdcall CvpCalcGrayHist(unsigned char* pBuf, const int width, const int height, const int step, ImageInfo& imgInfo)
 {
 	Mat im_src = Mat(height, width, CV_8UC4, pBuf, step);
 	// 灰度化处理
 	cvtColor(im_src, im_src, CV_RGBA2GRAY);
 	// 直方图参数设置
-	int histSize = 256;
-	float range[] = { 0,256 };
-	const float* histRange = { range };
-	bool uniform = true, accumulat = false;
+	const int loop_num = 10;
+	const size_t bin_size = 256;
+	std::vector<int> hist(bin_size, 0);
+	TickMeter tm;
+	double time = 0.0;
 
-	Mat hist;
-	calcHist()
+	//for (int i = 0; i <= loop_num; i++)
+	//{
+	//	// zero clear
+	//	std::fill(hist.begin(), hist.end(), 0);
+	//	tm.reset();
+	//	tm.start();
+
+	//	calcHistgram(im_src, &hist[0]);
+
+	//	tm.stop();
+	//	time += (i > 0) ? (tm.getTimeMilli()) : 0.0;
+	//}
+	tm.start();
+
+	calcHistgram(im_src, &hist[0]);
+
+	tm.stop();
+	time = tm.getTimeMilli();
+	imgInfo.r1 = static_cast<float>(time);
+	imgInfo.r4 = new int[bin_size];
+
+	std::copy(hist.begin(), hist.end(), imgInfo.r4);
+	/*int i = 0;
+	for (int& it : hist)
+	{
+		imgInfo.r4[i++] = it;
+	}*/
 }
 
 

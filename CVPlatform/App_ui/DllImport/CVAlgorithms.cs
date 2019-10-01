@@ -12,6 +12,7 @@ namespace App_ui.DllImport
         public float r1;
         public float r2;
         public IntPtr r3;
+        public IntPtr r4;
     }
 
     public struct BitmapInfo
@@ -43,6 +44,12 @@ namespace App_ui.DllImport
         // void _stdcall CvpThreshold(unsigned char* pBuf, int width, int height, int step, int thresh, int tMax, int type, ImageInfo &imgInfo)
         [DllImport("CVAlgorithms.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern void CvpThreshold(byte[] pBuf, int width, int height, int step, int thresh, int kMax, int type, ref ImageInfo imgInfo);
+
+        /// Opencv wrapper - calcHist
+        // void _stdcall CvpCalcGrayHist(unsigned char* pBuf, const int width, const int height, const int step, ImageInfo& imgInfo)
+        [DllImport("CVAlgorithms.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern void CvpCalcGrayHist(byte[] pBuf, int width, int height, int step, ref ImageInfo imgInfo);
+
 
         /// 释放new成员时产生的内存
         // bool _stdcall ReleaseMemUseDelete(double* pArray)

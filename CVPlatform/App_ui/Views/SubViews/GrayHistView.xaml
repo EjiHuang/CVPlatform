@@ -11,7 +11,7 @@
     Loaded="Window_Loaded"
     mc:Ignorable="d">
     <Grid>
-        <ItemsControl ItemsSource="{Binding}">
+        <ItemsControl ItemsSource="{Binding ChartValuesb}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />
